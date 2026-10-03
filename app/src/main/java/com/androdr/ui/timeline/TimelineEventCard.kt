@@ -279,7 +279,7 @@ fun TimelineEventDetailSheet(
             if (relatedEvents.isNotEmpty()) {
                 HorizontalDivider()
                 Text(
-                    text = "Linked Evidence (${relatedEvents.size})",
+                    text = stringResource(R.string.timeline_linked_evidence, relatedEvents.size),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -289,7 +289,7 @@ fun TimelineEventDetailSheet(
                     }
                     if (relatedEvents.size > 8) {
                         Text(
-                            text = "+${relatedEvents.size - 8} more",
+                            text = stringResource(R.string.timeline_more, relatedEvents.size - 8),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -395,7 +395,7 @@ fun CorrelationClusterCard(
                 // SpaceBetween sibling, which let the label push the time
                 // range off-screen or forced mid-word single-line cutoff.
                 Text(
-                    "${cluster.label} (${cluster.events.size})",
+                    "${if (cluster.label == "Correlated events") stringResource(R.string.timeline_correlated_events) else cluster.label} (${cluster.events.size})",
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = clusterColor,
@@ -438,7 +438,7 @@ fun ScanGroupHeader(
     onToggle: (() -> Unit)? = null
 ) {
     val dateStr = remember(group.timestamp) {
-        if (group.timestamp > 0) SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US).format(Date(group.timestamp))
+        if (group.timestamp > 0) SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault()).format(Date(group.timestamp))
         else ""
     }
     val unknownStr = stringResource(R.string.timeline_scan_unknown)
@@ -492,7 +492,7 @@ fun ScanGroupHeader(
                 if (onToggle != null) {
                     Icon(
                         imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        contentDescription = if (expanded) stringResource(R.string.timeline_collapse) else stringResource(R.string.timeline_expand),
                         modifier = Modifier.size(20.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -504,7 +504,7 @@ fun ScanGroupHeader(
 
 private fun formatTimeRange(events: List<ForensicTimelineEvent>): String {
     if (events.isEmpty()) return ""
-    val fmt = SimpleDateFormat("HH:mm", Locale.US)
+    val fmt = SimpleDateFormat("HH:mm", Locale.getDefault())
     val first = events.minOf { it.startTimestamp }
     val last = events.maxOf { it.startTimestamp }
     return if (first > 0 && last > 0) {
@@ -513,7 +513,7 @@ private fun formatTimeRange(events: List<ForensicTimelineEvent>): String {
 }
 
 private fun formatTime(ts: Long) =
-    if (ts > 0) SimpleDateFormat("HH:mm:ss", Locale.US).format(Date(ts)) else "??:??:??"
+    if (ts > 0) SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(ts)) else "??:??:??"
 
 private fun formatDate(ts: Long) =
-    if (ts > 0) SimpleDateFormat("MMM dd, yyyy", Locale.US).format(Date(ts)) else "Unknown"
+    if (ts > 0) SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(ts)) else "Unknown"
