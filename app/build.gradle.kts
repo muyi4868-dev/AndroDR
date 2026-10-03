@@ -45,7 +45,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.androdr"
+        applicationId = "com.androdr.zhcn"
         minSdk = 26
         targetSdk = 36
 
@@ -67,7 +67,7 @@ android {
                 commandLine("git", "rev-list", "--count", "HEAD")
             }.standardOutput.asText.get().trim().toIntOrNull() ?: 1
         versionCode = maxOf(mainBuildNumber, 439)
-        versionName = "0.9.0.$versionCode"
+        versionName = "0.9.0.$versionCode-zhCN-community"
 
         // Release note: use the HEAD commit's subject line — that's what was just
         // built. Earlier revisions used `git log --grep=^feat(` which walked HEAD
