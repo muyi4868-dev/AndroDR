@@ -70,6 +70,7 @@ import com.androdr.data.model.TelemetrySource
 import com.androdr.scanner.ScanOrchestrator
 import com.androdr.ui.common.ExportModeDialog
 import com.androdr.ui.common.severityColor
+import com.androdr.ui.common.localizedSeverityLabel
 import com.androdr.ui.theme.androdrColors
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -154,7 +155,7 @@ fun HistoryScreen(
                     IconButton(onClick = { viewModel.requestClearAll() }) {
                         Icon(
                             imageVector = Icons.Filled.DeleteSweep,
-                            contentDescription = "Clear all scan history",
+                            contentDescription = stringResource(R.string.history_clear_all_cd),
                             tint = MaterialTheme.colorScheme.error
                         )
                     }
@@ -190,16 +191,16 @@ fun HistoryScreen(
     if (showDeleteConfirm != null) {
         AlertDialog(
             onDismissRequest = { viewModel.dismissDeleteConfirm() },
-            title = { Text("Delete Scan") },
-            text = { Text("Delete this scan and its timeline events?") },
+            title = { Text(stringResource(R.string.history_delete_scan)) },
+            text = { Text(stringResource(R.string.history_delete_scan_body)) },
             confirmButton = {
                 TextButton(onClick = { viewModel.confirmDeleteScan() }) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.common_delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { viewModel.dismissDeleteConfirm() }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )
@@ -220,16 +221,16 @@ fun HistoryScreen(
     if (showClearAllConfirm) {
         AlertDialog(
             onDismissRequest = { viewModel.dismissClearAll() },
-            title = { Text("Clear All History") },
-            text = { Text("Delete all scan history? This cannot be undone.") },
+            title = { Text(stringResource(R.string.history_clear_all)) },
+            text = { Text(stringResource(R.string.history_clear_all_body)) },
             confirmButton = {
                 TextButton(onClick = { viewModel.confirmClearAll() }) {
-                    Text("Delete All", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.common_delete_all), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { viewModel.dismissClearAll() }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )
@@ -270,7 +271,7 @@ private fun ScanReportBottomSheet(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Scan Report",
+                        text = stringResource(R.string.history_scan_report),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -287,7 +288,7 @@ private fun ScanReportBottomSheet(
                     onClick = {},
                     label = {
                         Text(
-                            text = scan.overallRiskLevel.name,
+                            text = localizedSeverityLabel(scan.overallRiskLevel.name),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold
                         )
@@ -337,7 +338,7 @@ private fun ScanReportBottomSheet(
                         clipboard.setPrimaryClip(
                             ClipData.newPlainText("AndroDR Report", reportText)
                         )
-                        Toast.makeText(context, "Report copied to clipboard", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, context.getString(R.string.history_report_copied), Toast.LENGTH_SHORT)
                             .show()
                     },
                     modifier = Modifier.weight(1f),
@@ -349,17 +350,17 @@ private fun ScanReportBottomSheet(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Copy")
+                    Text(stringResource(R.string.common_copy))
                 }
                 Button(
                     onClick = {
                         val intent = Intent(Intent.ACTION_SEND).apply {
                             type = "text/plain"
                             putExtra(Intent.EXTRA_TEXT, reportText)
-                            putExtra(Intent.EXTRA_SUBJECT, "AndroDR Security Report")
+                            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.report_share_subject))
                         }
                         context.startActivity(
-                            Intent.createChooser(intent, "Share Security Report")
+                            Intent.createChooser(intent, context.getString(R.string.report_share_title))
                         )
                     },
                     modifier = Modifier.weight(1f),
@@ -371,7 +372,7 @@ private fun ScanReportBottomSheet(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Share")
+                    Text(stringResource(R.string.common_share))
                 }
             }
 
@@ -430,8 +431,11 @@ private fun ScanHistoryItem(
                     // say so, or the row reads as live device state.
                     ImportSourceLabel(scan.source)
                     Text(
-                        text = "${scan.appRisks.count { it.triggered }} app risk(s) \u00b7 " +
-                            "${scan.deviceFlags.count { it.triggered }} device flag(s)",
+                        text = stringResource(
+                            R.string.history_risk_flags_summary,
+                            scan.appRisks.count { it.triggered },
+                            scan.deviceFlags.count { it.triggered }
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -440,7 +444,7 @@ private fun ScanHistoryItem(
                     onClick = {},
                     label = {
                         Text(
-                            text = riskLevel.name,
+                            text = localizedSeverityLabel(riskLevel.name),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold
                         )
@@ -473,10 +477,13 @@ private fun ScanHistoryItem(
                     )
                     Text(
                         text = buildString {
-                            append("\u2022 ${scan.appRisks.count { it.triggered }} app risk(s) detected\n")
-                            append("\u2022 ${scan.knownMalwareCount} known malware app(s)\n")
-                            append("\u2022 ${scan.riskySideloadCount} sideloaded app(s)\n")
-                            append("\u2022 ${scan.deviceFlags.count { it.triggered }} device flag(s) triggered")
+                            append(stringResource(R.string.history_summary_app_risks, scan.appRisks.count { it.triggered }))
+                            append('\n')
+                            append(stringResource(R.string.history_summary_known_malware, scan.knownMalwareCount))
+                            append('\n')
+                            append(stringResource(R.string.history_summary_sideloaded, scan.riskySideloadCount))
+                            append('\n')
+                            append(stringResource(R.string.history_summary_device_flags, scan.deviceFlags.count { it.triggered }))
                         },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface
@@ -504,12 +511,12 @@ private fun ScanHistoryItem(
                         IconButton(onClick = onViewReport) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
-                                contentDescription = "View full report",
+                                contentDescription = stringResource(R.string.history_view_full_report),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
                         Text(
-                            text = "View Report",
+                            text = stringResource(R.string.history_view_report),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
@@ -539,7 +546,7 @@ private fun ScanHistoryItem(
                         IconButton(onClick = onDelete) {
                             Icon(
                                 imageVector = Icons.Filled.Delete,
-                                contentDescription = "Delete scan",
+                                contentDescription = stringResource(R.string.history_delete_scan_cd),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
