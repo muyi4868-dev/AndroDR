@@ -1,61 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools">
-    <!-- App name -->
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:ns0="http://schemas.android.com/tools">
     <string name="app_name">AndroDR</string>
-
-    <!-- Accessibility / content descriptions -->
     <string name="cd_shield">Shield icon</string>
-
-    <!-- Dashboard -->
     <string name="run_scan">Run Scan</string>
     <string name="scanning">Scanning…</string>
     <string name="updating_intel">Updating threat intel…</string>
-
-    <!-- Usage Access permission banner — shown when forensic timeline data is unavailable -->
     <string name="usage_access_banner_title">Enable Usage Access</string>
     <string name="usage_access_banner_body">AndroDR uses the system Usage Access permission to build a forensic timeline of app opens and closes. Without it, the 24-hour activity history on the Timeline screen will be empty. Grant it once from Android settings — AndroDR cannot request this permission via the normal prompt.</string>
     <string name="usage_access_banner_cta">Open Usage Access settings</string>
-
-    <!-- Scan progress phases -->
     <string name="scan_phase_collecting">Collecting telemetry…</string>
     <string name="scan_phase_evaluating">Evaluating detection rules…</string>
     <string name="scan_phase_saving">Saving scan results…</string>
-    <!-- PluralsCandidate: compact progress counter used on the Dashboard progress card -->
-    <string name="scan_progress_counter" tools:ignore="PluralsCandidate">%1$d of %2$d checks complete</string>
-
-    <!-- Partial-scan warning banner — shown when scannerErrors is non-empty -->
+    <string name="scan_progress_counter" ns0:ignore="PluralsCandidate">%1$d of %2$d checks complete</string>
     <string name="partial_scan_banner_title">Scan incomplete</string>
-    <!-- PluralsCandidate: compact failure counter -->
-    <string name="partial_scan_banner_body" tools:ignore="PluralsCandidate">%1$d check(s) failed — results may be inaccurate. Retry the scan to get a complete picture.</string>
-
+    <string name="partial_scan_banner_body" ns0:ignore="PluralsCandidate">%1$d check(s) failed — results may be inaccurate. Retry the scan to get a complete picture.</string>
     <string name="summary_app_risks">App Risks</string>
     <string name="summary_device_flags">Device Flags</string>
     <string name="summary_dns_matched">Suspicious Connections</string>
     <string name="summary_last_scan">Scans</string>
     <string name="never">Never</string>
-    <!-- PluralsCandidate: "risk(s)" is intentional shorthand for a single UI banner;
-         a full plurals resource would add overhead with no real i18n benefit for this string. -->
-    <!-- UnusedResources: referenced from DashboardScreen Composable (lint cannot trace Compose string refs) -->
-    <string name="diff_banner" tools:ignore="PluralsCandidate,UnusedResources">%1$d new risk(s) since last scan</string>
-
-    <!-- App Scan -->
+    <string name="diff_banner" ns0:ignore="PluralsCandidate,UnusedResources">%1$d new risk(s) since last scan</string>
     <string name="filter_all">All</string>
     <string name="no_risks_found">No risks found</string>
-
-    <!-- Device Audit -->
     <string name="device_all_clear">All checks passed</string>
     <string name="no_scan_yet">Run a scan to see device audit results</string>
     <string name="section_issues_found">Issues Found</string>
     <string name="section_checks_passed">Checks Passed</string>
-
-    <!-- DNS VPN foreground service notification -->
     <string name="vpn_notification_channel_name">Network Monitor</string>
     <string name="vpn_notification_channel_desc">Persistent notification while AndroDR is filtering DNS traffic.</string>
     <string name="vpn_notification_title">AndroDR network monitor active</string>
     <string name="vpn_notification_text">Filtering DNS traffic for known threats.</string>
-
-    <!-- DNS Monitor -->
     <string name="dns_vpn_title">Network Monitor</string>
     <string name="vpn_status_running">Running — DNS traffic is being filtered</string>
     <string name="vpn_status_stopped">Stopped — enable to start filtering</string>
@@ -67,8 +41,6 @@
     <string name="no_matched_events">No matched events</string>
     <string name="status_matched">MATCHED</string>
     <string name="status_allowed">ALLOWED</string>
-
-    <!-- History -->
     <string name="no_scan_history">No scan history yet</string>
     <string name="run_first_scan_hint">Go to Dashboard and tap "Run Scan" to get started</string>
     <string name="scan_summary_title">Scan Summary</string>
@@ -76,15 +48,11 @@
     <string name="diff_new_risks">New Risks</string>
     <string name="diff_resolved">Resolved</string>
     <string name="diff_no_changes">No changes since previous scan</string>
-    <!-- Labels a history row that came from an imported artifact rather than a live scan (#356) -->
     <string name="history_source_bugreport_import">Bug report import</string>
     <string name="history_source_intrusion_log_import">Intrusion log import</string>
-
-    <!-- Artifact import: bug report (system diagnostic) or intrusion log export -->
     <string name="bugreport_instructions_title">How to create a system diagnostic</string>
     <string name="intrusion_log_instructions_title">How to download intrusion logs (Android 16+)</string>
     <string name="intrusion_log_instructions_body">Available on Android 16 and later with Advanced Protection enabled.\n\n1. Open Settings \u2192 Security &amp; privacy \u2192 Advanced Protection \u2192 Intrusion Logging\n\n2. Tap \"Access logs\" and download the .zip export\n\n3. Come back here, tap the button above, and select the downloaded .zip\n\nIntrusion logs record DNS lookups, network connections, and system security events from your device. AndroDR analyzes the export entirely on your device \u2014 nothing is uploaded to external servers.</string>
-    <!-- Artifact-neutral: this screen accepts a bug report OR an intrusion log export (#356) -->
     <string name="bugreport_select_file">Select file to analyze (.zip)</string>
     <string name="bugreport_analyzing">Analyzing file\u2026</string>
     <string name="bugreport_empty_state">No analysis yet</string>
@@ -92,34 +60,23 @@
     <string name="bugreport_complete_clean_title">Scan complete — no security signals detected</string>
     <string name="bugreport_complete_clean_hint">Your system diagnostic (bug report) was analyzed against AndroDR\'s detection rules and no triggered findings were produced.</string>
     <string name="intrusion_log_complete_clean_hint">Your intrusion log export was analyzed against AndroDR\'s detection rules and no triggered findings were produced.</string>
-    <!-- Names which artifact the sniffer actually routed to, above the findings list -->
     <string name="bugreport_analyzed_bug_report">Analyzed: system diagnostic (bug report)</string>
     <string name="bugreport_analyzed_intrusion_log">Analyzed: intrusion log export</string>
-    <!-- PluralsCandidate: compact completion summary; matches bugreport_finding_count style -->
-    <string name="bugreport_complete_timeline_only" tools:ignore="PluralsCandidate">Scan complete — %1$d timeline event(s), no triggered findings</string>
+    <string name="bugreport_complete_timeline_only" ns0:ignore="PluralsCandidate">Scan complete — %1$d timeline event(s), no triggered findings</string>
     <string name="bugreport_error_title">Analysis failed</string>
     <string name="bugreport_error_hint">Reason: %1$s</string>
-    <!-- Entry point for BOTH import forks (bug report / intrusion log export), #356 -->
     <string name="dashboard_bugreport_title">Analyze a File</string>
     <string name="dashboard_bugreport_hint">Scan a bug report or intrusion log export for hidden threats</string>
-
-    <!-- Report export -->
     <string name="report_export_label">Export Report</string>
     <string name="report_export_cd">Share security report</string>
     <string name="report_share_title">Share Security Report</string>
     <string name="report_share_subject">AndroDR Security Report</string>
-
-    <!-- Navigation labels -->
-    <!-- UnusedResources: these are referenced by NavDestination.label in Compose navigation;
-         lint cannot trace string resource usage through Compose navigation graphs. -->
-    <string name="nav_dashboard" tools:ignore="UnusedResources">Dashboard</string>
-    <string name="nav_apps" tools:ignore="UnusedResources">Apps</string>
-    <string name="nav_device" tools:ignore="UnusedResources">Device</string>
-    <string name="nav_network" tools:ignore="UnusedResources">Network</string>
-    <string name="nav_history" tools:ignore="UnusedResources">History</string>
-
-    <!-- Timeline -->
-    <string name="nav_timeline" tools:ignore="UnusedResources">Timeline</string>
+    <string name="nav_dashboard" ns0:ignore="UnusedResources">Dashboard</string>
+    <string name="nav_apps" ns0:ignore="UnusedResources">Apps</string>
+    <string name="nav_device" ns0:ignore="UnusedResources">Device</string>
+    <string name="nav_network" ns0:ignore="UnusedResources">Network</string>
+    <string name="nav_history" ns0:ignore="UnusedResources">History</string>
+    <string name="nav_timeline" ns0:ignore="UnusedResources">Timeline</string>
     <string name="timeline_empty">No timeline events yet</string>
     <string name="timeline_empty_hint">Run a scan or analyze a bug report to populate the timeline</string>
     <string name="timeline_export_txt">Export Text</string>
@@ -131,58 +88,34 @@
     <string name="timeline_range_24h">24h</string>
     <string name="timeline_range_7d">7d</string>
     <string name="timeline_range_30d">30d</string>
-
-    <!-- Post-scan guidance -->
     <string name="guidance_critical">Immediate action needed. Tap \"App Risks\" below to see which apps should be removed.</string>
     <string name="guidance_critical_device">Your device settings need immediate attention. Tap \"Device\" below to review.</string>
     <string name="guidance_high">Some issues found. Review the flagged items and follow the suggested actions.</string>
     <string name="guidance_medium">Minor items to review. Your phone is mostly secure.</string>
     <string name="guidance_low">Your phone looks secure. No urgent issues found.</string>
-
-    <!-- Dashboard — externalized -->
     <string name="dashboard_overall_risk">Overall Risk</string>
     <string name="dashboard_no_scan_yet">No scan performed yet. Tap \"Run Scan\" to analyse your device.</string>
-    <!-- PluralsCandidate: shorthand for compact dashboard display -->
-    <string name="dashboard_risk_summary" tools:ignore="PluralsCandidate">%1$d app risk(s) \u00b7 %2$d device flag(s) \u00b7 %3$d warning sign(s) that add up</string>
+    <string name="dashboard_risk_summary" ns0:ignore="PluralsCandidate">%1$d app risk(s) \u00b7 %2$d device flag(s) \u00b7 %3$d warning sign(s) that add up</string>
     <string name="guidance_chains">Warning signs that add up: several events that look minor on their own point to something together. Open the report to see which app and what it did.</string>
-    <!-- PluralsCandidate: shorthand for compact diff banner display -->
-    <string name="dashboard_new_risks" tools:ignore="PluralsCandidate">%1$d new risk(s) since last scan</string>
+    <string name="dashboard_new_risks" ns0:ignore="PluralsCandidate">%1$d new risk(s) since last scan</string>
     <string name="cd_settings">Settings</string>
-
-    <!-- Device Audit — externalized -->
-    <!-- PluralsCandidate: shorthand for compact audit summary -->
-    <string name="device_checks_passed" tools:ignore="PluralsCandidate">%1$d / %2$d checks passed</string>
-    <!-- PluralsCandidate: shorthand for compact issue count -->
-    <string name="device_issues_attention" tools:ignore="PluralsCandidate">%1$d issue(s) require attention</string>
-
-    <!-- DNS Monitor — externalized -->
+    <string name="device_checks_passed" ns0:ignore="PluralsCandidate">%1$d / %2$d checks passed</string>
+    <string name="device_issues_attention" ns0:ignore="PluralsCandidate">%1$d issue(s) require attention</string>
     <string name="dns_policy_title">Network Protection</string>
     <string name="dns_blocklist_block">Block suspicious domains</string>
     <string name="dns_ioc_domains_block">Block known threat domains</string>
-
-    <!-- Bug Report — externalized -->
     <string name="bugreport_rule_findings">Rule-Based Findings</string>
-    <!-- PluralsCandidate: shorthand for finding count display -->
-    <string name="bugreport_finding_count" tools:ignore="PluralsCandidate">%1$d finding(s)</string>
-    <string name="bugreport_timeline_count" tools:ignore="PluralsCandidate">Timeline (%1$d events)</string>
+    <string name="bugreport_finding_count" ns0:ignore="PluralsCandidate">%1$d finding(s)</string>
+    <string name="bugreport_timeline_count" ns0:ignore="PluralsCandidate">Timeline (%1$d events)</string>
     <string name="cd_collapse">Collapse</string>
     <string name="cd_expand">Expand</string>
-
-    <!-- Intrusion Log Import summary card (#342) — externalized -->
     <string name="intrusion_log_summary_title">Intrusion log analyzed</string>
-    <!-- PluralsCandidate: compact multi-count summary; matches bugreport_finding_count style -->
-    <string name="intrusion_log_summary_counts" tools:ignore="PluralsCandidate">%1$d DNS events \u00b7 %2$d connections \u00b7 %3$d security events</string>
-    <!-- PluralsCandidate: compact multi-count summary; matches bugreport_finding_count style -->
-    <string name="intrusion_log_summary_collapsed" tools:ignore="PluralsCandidate">%1$d duplicates collapsed \u00b7 %2$d malformed lines skipped</string>
-    <!-- PluralsCandidate: compact cap-truncation notice -->
-    <string name="intrusion_log_summary_capped" tools:ignore="PluralsCandidate">Timeline keeps the newest %1$d of %2$d DNS and %3$d of %4$d connection events.</string>
-    <!-- PluralsCandidate: security-event cap-truncation notice (#342 B4) -->
-    <string name="intrusion_log_summary_capped_security" tools:ignore="PluralsCandidate">Timeline keeps the newest %1$d of %2$d security events.</string>
-    <!-- PluralsCandidate: findings cap-truncation notice (#342 B3) -->
-    <string name="intrusion_log_summary_capped_findings" tools:ignore="PluralsCandidate">Saved the highest-severity %1$d of %2$d findings.</string>
+    <string name="intrusion_log_summary_counts" ns0:ignore="PluralsCandidate">%1$d DNS events \u00b7 %2$d connections \u00b7 %3$d security events</string>
+    <string name="intrusion_log_summary_collapsed" ns0:ignore="PluralsCandidate">%1$d duplicates collapsed \u00b7 %2$d malformed lines skipped</string>
+    <string name="intrusion_log_summary_capped" ns0:ignore="PluralsCandidate">Timeline keeps the newest %1$d of %2$d DNS and %3$d of %4$d connection events.</string>
+    <string name="intrusion_log_summary_capped_security" ns0:ignore="PluralsCandidate">Timeline keeps the newest %1$d of %2$d security events.</string>
+    <string name="intrusion_log_summary_capped_findings" ns0:ignore="PluralsCandidate">Saved the highest-severity %1$d of %2$d findings.</string>
     <string name="intrusion_log_summary_range">Covers %1$s \u2192 %2$s</string>
-
-    <!-- Timeline — externalized -->
     <string name="timeline_title">Timeline</string>
     <string name="cd_view_report">View report</string>
     <string name="cd_copy_report">Copy report</string>
@@ -191,8 +124,6 @@
     <string name="timeline_report_title">Forensic Timeline Report</string>
     <string name="timeline_copy">Copy</string>
     <string name="timeline_share">Share</string>
-
-    <!-- Timeline Event Card — externalized -->
     <string name="timeline_detail_description">Description</string>
     <string name="timeline_detail_details">Details</string>
     <string name="timeline_detail_package">Package</string>
@@ -205,14 +136,144 @@
     <string name="timeline_scan_intrusion_log">Intrusion log import</string>
     <string name="timeline_scan_runtime">Runtime Scan</string>
     <string name="timeline_scan_unknown">Unknown</string>
-    <!-- PluralsCandidate: shorthand for compact event count -->
-    <string name="timeline_event_count" tools:ignore="PluralsCandidate">%1$d events</string>
-
-    <!-- Device audit remediation -->
+    <string name="timeline_event_count" ns0:ignore="PluralsCandidate">%1$d events</string>
     <string name="what_to_do">What to do</string>
-
-    <!-- Finding Card — externalized -->
     <string name="finding_triggered">Triggered</string>
     <string name="finding_passed">Passed</string>
     <string name="finding_view_details">View details</string>
+    <string name="severity_critical">CRITICAL</string>
+    <string name="severity_high">HIGH</string>
+    <string name="severity_medium">MEDIUM</string>
+    <string name="severity_low">LOW</string>
+    <string name="severity_informational">INFORMATIONAL</string>
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_dismiss">Dismiss</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_delete_all">Delete All</string>
+    <string name="common_copy">Copy</string>
+    <string name="common_share">Share</string>
+    <string name="common_export">Export</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_appearance_desc">Choose how AndroDR adapts to your system theme.</string>
+    <string name="settings_dns_blocklist">DNS Blocklist</string>
+    <string name="settings_block_matched_domains">Block matched domains</string>
+    <string name="settings_detect_log_only">Off = detect and log only</string>
+    <string name="settings_threat_intel_domains">Threat Intelligence Domains</string>
+    <string name="settings_detect_log_only_edr">Off = detect and log only (recommended for EDR)</string>
+    <string name="settings_custom_rule_urls">Custom Rule URLs</string>
+    <string name="settings_custom_rule_urls_desc">Detection rule sources (one per line). Each URL should point to a raw GitHub directory containing a rules.txt manifest.</string>
+    <string name="settings_rule_urls">Rule URLs</string>
+    <string name="settings_app_hash_export">App Hash Export</string>
+    <string name="settings_app_hash_export_desc">Export SHA-256 hashes of all installed apps as CSV. Use these hashes to check apps on VirusTotal.</string>
+    <string name="settings_computing_hashes">Computing hashes…</string>
+    <string name="settings_export_app_hashes">Export App Hashes (CSV)</string>
+    <string name="settings_scan_findings_export">Scan Findings Export</string>
+    <string name="settings_scan_findings_export_desc">Export scan findings as a STIX 2.1 JSON bundle for sharing with forensic analysts. Compatible with MVT, MISP, and SIEM platforms.</string>
+    <string name="settings_exporting">Exporting…</string>
+    <string name="settings_export_findings">Export Findings (STIX2 JSON)</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_build">Build</string>
+    <string name="settings_android">Android</string>
+    <string name="settings_device">Device</string>
+    <string name="settings_security_patch">Security Patch</string>
+    <string name="settings_threat_database">Threat Database</string>
+    <string name="settings_detection_rules">Detection Rules</string>
+    <string name="settings_threat_domains">Threat Domains</string>
+    <string name="settings_threat_apps">Threat Apps</string>
+    <string name="settings_threat_certificates">Threat Certificates</string>
+    <string name="settings_cve_database">CVE Database</string>
+    <string name="settings_android_cves">%1$d Android CVEs</string>
+    <string name="settings_updating">Updating…</string>
+    <string name="settings_update_now">Update Now</string>
+    <string name="settings_last_updated">Last updated: %1$s</string>
+    <string name="settings_last_updated_never">Last updated: Never</string>
+    <string name="settings_feed_health">Feed health  (• = critical detection feed)</string>
+    <string name="settings_stale">%1$s — stale</string>
+    <string name="settings_just_now">just now</string>
+    <string name="settings_minutes_ago">%1$d m ago</string>
+    <string name="settings_hours_ago">%1$d h ago</string>
+    <string name="settings_days_ago">%1$d d ago</string>
+    <string name="settings_never">never</string>
+    <string name="settings_bundled">bundled</string>
+    <string name="settings_downloaded">downloaded</string>
+    <string name="settings_system">System</string>
+    <string name="settings_light">Light</string>
+    <string name="settings_dark">Dark</string>
+    <string name="settings_share_hashes">Share App Hashes</string>
+    <string name="settings_share_stix">Share STIX2 Bundle</string>
+    <string name="settings_update_complete">Update Complete</string>
+    <string name="settings_ioc_indicators">IOC Indicators</string>
+    <string name="settings_known_apps">Known Apps</string>
+    <string name="settings_sigma_rules">SIGMA Rules</string>
+    <string name="settings_oem_prefixes">OEM Prefixes</string>
+    <string name="settings_brand_registry">Brand Registry</string>
+    <string name="history_clear_all_cd">Clear all scan history</string>
+    <string name="history_delete_scan">Delete Scan</string>
+    <string name="history_delete_scan_body">Delete this scan and its timeline events?</string>
+    <string name="history_clear_all">Clear All History</string>
+    <string name="history_clear_all_body">Delete all scan history? This cannot be undone.</string>
+    <string name="history_scan_report">Scan Report</string>
+    <string name="history_report_copied">Report copied to clipboard</string>
+    <string name="history_view_full_report">View full report</string>
+    <string name="history_view_report">View Report</string>
+    <string name="history_delete_scan_cd">Delete scan</string>
+    <string name="app_findings_count">%1$d findings</string>
+    <string name="app_findings_title">Findings (%1$d)</string>
+    <string name="app_uninstall">Uninstall App</string>
+    <string name="app_no_package_uninstall">No Package to Uninstall</string>
+    <string name="app_view_timeline">View in Timeline</string>
+    <string name="evidence_known_vulns">Known Security Vulnerabilities (%1$d)</string>
+    <string name="evidence_spyware_cves">%1$d CVE(s) linked to known spyware campaigns</string>
+    <string name="evidence_target_patch">Target patch level: %1$s</string>
+    <string name="evidence_remediation">Remediation</string>
+    <string name="evidence_fixed_in">Fixed in: %1$s</string>
+    <string name="evidence_threat_match">Threat Match Details</string>
+    <string name="evidence_what_detected">What was detected</string>
+    <string name="evidence_detection_type">Detection type</string>
+    <string name="evidence_source">Source</string>
+    <string name="evidence_surveillance_permissions">Surveillance Permissions</string>
+    <string name="evidence_surveillance_count">%1$d of %2$d permissions are surveillance-capable</string>
+    <string name="evidence_cves_count">%1$d CVEs</string>
+    <string name="evidence_spyware_linked">%1$d linked to spyware</string>
+    <string name="evidence_matched">Matched: %1$s</string>
+    <string name="evidence_surveillance_summary">%1$d surveillance permissions</string>
+    <string name="export_report_title">Export report</string>
+    <string name="export_telemetry_only">Telemetry only (for analyst handoff)</string>
+    <string name="export_findings_only">Findings only</string>
+    <string name="export_both">Both (full report)</string>
+    <string name="timeline_manage_scans">Manage scans</string>
+    <string name="timeline_full_report">Full Report…</string>
+    <string name="timeline_filters">Filters</string>
+    <string name="timeline_collapse_filters">Collapse filters</string>
+    <string name="timeline_expand_filters">Expand filters</string>
+    <string name="timeline_hide_info">Hide informational telemetry</string>
+    <string name="timeline_share_report">Share Timeline Report</string>
+    <string name="timeline_share_title">Share Timeline</string>
+    <string name="timeline_unknown_date">Unknown Date</string>
+    <string name="timeline_linked_evidence">Linked Evidence (%1$d)</string>
+    <string name="timeline_more"> +%1$d more</string>
+    <string name="timeline_collapse">Collapse</string>
+    <string name="timeline_expand">Expand</string>
+    <string name="timeline_unknown">Unknown</string>
+    <string name="settings_updated">Updated</string>
+    <string name="settings_failed">Failed</string>
+    <string name="settings_community_notice">Community localization based on the original AndroDR project. Original author and Apache License 2.0 notices are retained.</string>
+    <string name="dashboard_tap_manage">Tap to manage</string>
+    <string name="bugreport_share_subject">AndroDR Deep Device Scan</string>
+    <string name="bugreport_share_analysis_report">Share Analysis Report</string>
+    <string name="history_risk_flags_summary">%1$d app risk(s) · %2$d device flag(s)</string>
+    <string name="history_summary_app_risks">• %1$d app risk(s) detected</string>
+    <string name="history_summary_known_malware">• %1$d known malware app(s)</string>
+    <string name="history_summary_sideloaded">• %1$d sideloaded app(s)</string>
+    <string name="history_summary_device_flags">• %1$d device flag(s) triggered</string>
+
+    <string name="bugreport_instructions_body">How to create a system diagnostic for AndroDR to scan:\n\n1. Enable Developer Options (if not already enabled):\n• Open Settings → About Phone\n• Tap “Build Number” seven times until you see “You are now a developer!”\n\n2. Open Developer Options:\n• Go to Settings → System → Developer Options\n(on some devices: Settings → Developer Options)\n\n3. Create the system diagnostic:\n• Find “Take Bug Report”\n• Select “Full Report” for the most thorough scan\n• Wait for the diagnostic to be created (usually 1–3 minutes)\n• When notified, tap the notification to share the file\n\n4. Import into AndroDR:\n• Choose AndroDR in the share sheet, or save the .zip and use “Select Diagnostic File”\n\nNote: system diagnostics contain detailed device information. Only share them with apps you trust. AndroDR processes the file on-device and does not upload it to external servers.</string>
+    <string name="timeline_correlated_events">Correlated events</string>
+    <string name="timeline_share_subject">AndroDR Forensic Timeline</string>
+    <string name="dashboard_threat_update_failed_connection">Failed to update threat database. Check your connection.</string>
+    <string name="dashboard_threat_update_failed_detail">Threat database update failed: %1$s</string>
+
 </resources>
