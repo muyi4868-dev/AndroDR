@@ -11,14 +11,26 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.androdr.R
 import com.androdr.ui.theme.AndroDRTheme
 import com.androdr.ui.theme.ExtendedColors
 import com.androdr.ui.theme.ThemeMode
 import com.androdr.ui.theme.androdrColors
+
+@Composable
+fun localizedSeverityLabel(level: String): String = when (level.lowercase()) {
+    "critical" -> stringResource(R.string.severity_critical)
+    "high" -> stringResource(R.string.severity_high)
+    "medium" -> stringResource(R.string.severity_medium)
+    "low" -> stringResource(R.string.severity_low)
+    "informational", "info" -> stringResource(R.string.severity_informational)
+    else -> level.uppercase()
+}
 
 @Composable
 fun SeverityChip(level: String, active: Boolean = true) {
@@ -29,7 +41,7 @@ fun SeverityChip(level: String, active: Boolean = true) {
         onClick = {},
         label = {
             Text(
-                text = level.uppercase(),
+                text = localizedSeverityLabel(level),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold
             )
