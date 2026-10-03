@@ -59,6 +59,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.androdr.R
 import com.androdr.ui.common.severityColor
+import com.androdr.ui.common.localizedFindingTitle
+import com.androdr.ui.common.localizedFindingRemediation
+import com.androdr.ui.common.localizedFindingDescription
 import com.androdr.ui.theme.androdrColors
 
 private val FILTER_LEVELS = listOf("critical", "high", "medium", "low")
@@ -93,7 +96,13 @@ fun AppScanScreen(
                 FilterChip(
                     selected = filterLevel.equals(level, ignoreCase = true),
                     onClick = { viewModel.setFilter(level) },
-                    label = { Text(level.uppercase()) }
+                    label = { Text(when (level.lowercase()) {
+                        "critical" -> stringResource(R.string.severity_critical)
+                        "high" -> stringResource(R.string.severity_high)
+                        "medium" -> stringResource(R.string.severity_medium)
+                        "low" -> stringResource(R.string.severity_low)
+                        else -> level.uppercase()
+                    }) }
                 )
             }
         }
@@ -217,7 +226,7 @@ private fun AppGroupCard(group: AppGroup, onClick: () -> Unit) {
                 if (group.findings.size > 1) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "${group.findings.size} findings",
+                        text = stringResource(R.string.app_findings_count, group.findings.size),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -309,7 +318,7 @@ private fun AppGroupDetailSheet(
 
                 // Findings section
                 Text(
-                    text = "Findings (${group.findings.size})",
+                    text = stringResource(R.string.app_findings_title, group.findings.size),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -326,14 +335,14 @@ private fun AppGroupDetailSheet(
                         )
                         Column {
                             Text(
-                                text = finding.title,
+                                text = localizedFindingTitle(finding),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             if (finding.description.isNotEmpty()) {
                                 Text(
-                                    text = finding.description,
+                                    text = localizedFindingDescription(finding),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -345,10 +354,10 @@ private fun AppGroupDetailSheet(
                 HorizontalDivider()
 
                 // Remediation section
-                val allRemediation = group.findings.flatMap { it.remediation }.distinct()
+                val allRemediation = group.findings.flatMap { localizedFindingRemediation(it) }.distinct()
                 if (allRemediation.isNotEmpty()) {
                     Text(
-                        text = "What to do",
+                        text = stringResource(R.string.what_to_do),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -390,7 +399,7 @@ private fun AppGroupDetailSheet(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(if (hasRealPackage) "Uninstall App" else "No Package to Uninstall")
+                Text(if (hasRealPackage) stringResource(R.string.app_uninstall) else stringResource(R.string.app_no_package_uninstall))
             }
 
             // View in Timeline button
@@ -405,7 +414,7 @@ private fun AppGroupDetailSheet(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("View in Timeline")
+                    Text(stringResource(R.string.app_view_timeline))
                 }
             }
 
@@ -414,7 +423,7 @@ private fun AppGroupDetailSheet(
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Dismiss")
+                Text(stringResource(R.string.common_dismiss))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -430,7 +439,13 @@ fun RiskChip(level: String, modifier: Modifier = Modifier) {
         onClick = {},
         label = {
             Text(
-                text = level.uppercase(),
+                text = when (level.lowercase()) {
+                    "critical" -> stringResource(R.string.severity_critical)
+                    "high" -> stringResource(R.string.severity_high)
+                    "medium" -> stringResource(R.string.severity_medium)
+                    "low" -> stringResource(R.string.severity_low)
+                    else -> level.uppercase()
+                },
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold
             )
