@@ -62,7 +62,7 @@ fun FindingCard(finding: Finding, onEvidenceTap: ((Finding) -> Unit)? = null) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = finding.title,
+                        text = localizedFindingTitle(finding),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.weight(1f)
@@ -72,7 +72,7 @@ fun FindingCard(finding: Finding, onEvidenceTap: ((Finding) -> Unit)? = null) {
                 }
                 if (finding.triggered && finding.description.isNotEmpty()) {
                     Text(
-                        text = finding.description,
+                        text = localizedFindingDescription(finding),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -103,13 +103,14 @@ fun FindingCard(finding: Finding, onEvidenceTap: ((Finding) -> Unit)? = null) {
     }
 }
 
+@Composable
 private fun evidenceSummary(evidence: Evidence): String = when (evidence) {
     is Evidence.None -> ""
     is Evidence.CveList -> {
-        val parts = mutableListOf("${evidence.cves.size} CVEs")
-        if (evidence.campaignCount > 0) parts.add("${evidence.campaignCount} linked to spyware")
+        val parts = mutableListOf(stringResource(R.string.evidence_cves_count, evidence.cves.size))
+        if (evidence.campaignCount > 0) parts.add(stringResource(R.string.evidence_spyware_linked, evidence.campaignCount))
         parts.joinToString(" \u00b7 ")
     }
-    is Evidence.IocMatch -> "Matched: ${evidence.matchedIndicator}"
-    is Evidence.PermissionCluster -> "${evidence.surveillanceCount} surveillance permissions"
+    is Evidence.IocMatch -> stringResource(R.string.evidence_matched, evidence.matchedIndicator)
+    is Evidence.PermissionCluster -> stringResource(R.string.evidence_surveillance_summary, evidence.surveillanceCount)
 }
