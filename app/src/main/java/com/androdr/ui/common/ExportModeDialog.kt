@@ -18,7 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.androdr.R
 import com.androdr.reporting.ExportMode
 
 @Composable
@@ -29,7 +31,7 @@ fun ExportModeDialog(
     var selectedMode by remember { mutableStateOf(ExportMode.BOTH) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Export report") },
+        title = { Text(stringResource(R.string.export_report_title)) },
         text = {
             Column {
                 ExportMode.values().forEach { mode ->
@@ -55,19 +57,20 @@ fun ExportModeDialog(
         },
         confirmButton = {
             TextButton(onClick = { onConfirm(selectedMode) }) {
-                Text("Export")
+                Text(stringResource(R.string.common_export))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.common_cancel))
             }
         },
     )
 }
 
+@Composable
 fun exportModeLabel(mode: ExportMode): String = when (mode) {
-    ExportMode.TELEMETRY_ONLY -> "Telemetry only (for analyst handoff)"
-    ExportMode.FINDINGS_ONLY -> "Findings only"
-    ExportMode.BOTH -> "Both (full report)"
+    ExportMode.TELEMETRY_ONLY -> stringResource(R.string.export_telemetry_only)
+    ExportMode.FINDINGS_ONLY -> stringResource(R.string.export_findings_only)
+    ExportMode.BOTH -> stringResource(R.string.export_both)
 }
