@@ -92,10 +92,10 @@ fun BugReportScreen(
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_STREAM, uri)
-                putExtra(Intent.EXTRA_SUBJECT, "AndroDR Deep Device Scan")
+                putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.bugreport_share_subject))
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(Intent.createChooser(shareIntent, "Share Analysis Report"))
+            context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.bugreport_share_analysis_report)))
             viewModel.onShareConsumed()
         }
     }
@@ -119,7 +119,7 @@ fun BugReportScreen(
                 // How to create a bug report (expandable)
                 InstructionsCard(
                     title = stringResource(R.string.bugreport_instructions_title),
-                    body = viewModel.instructions,
+                    body = stringResource(R.string.bugreport_instructions_body),
                     expanded = instructionsExpanded,
                     onToggle = { instructionsExpanded = !instructionsExpanded }
                 )
