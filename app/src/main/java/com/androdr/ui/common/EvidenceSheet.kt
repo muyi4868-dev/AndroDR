@@ -24,9 +24,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.androdr.R
 import com.androdr.sigma.CveEvidence
 import com.androdr.sigma.Evidence
 import com.androdr.sigma.Finding
@@ -50,7 +52,7 @@ fun EvidenceSheet(finding: Finding, onDismiss: () -> Unit) {
         ) {
             // Title
             Text(
-                text = finding.title,
+                text = localizedFindingTitle(finding),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -70,7 +72,7 @@ fun EvidenceSheet(finding: Finding, onDismiss: () -> Unit) {
                 when (val evidence = finding.evidence) {
                     is Evidence.CveList -> CveListContent(
                         evidence = evidence,
-                        remediation = finding.remediation
+                        remediation = localizedFindingRemediation(finding)
                     )
                     is Evidence.IocMatch -> IocMatchContent(evidence = evidence)
                     is Evidence.PermissionCluster -> PermissionClusterContent(evidence = evidence)
@@ -87,7 +89,7 @@ fun EvidenceSheet(finding: Finding, onDismiss: () -> Unit) {
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Dismiss")
+                Text(stringResource(R.string.common_dismiss))
             }
         }
     }
@@ -96,14 +98,14 @@ fun EvidenceSheet(finding: Finding, onDismiss: () -> Unit) {
 @Composable
 private fun CveListContent(evidence: Evidence.CveList, remediation: List<String>) {
     Text(
-        text = "Known Security Vulnerabilities (${evidence.cves.size})",
+        text = stringResource(R.string.evidence_known_vulns, evidence.cves.size),
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.SemiBold
     )
 
     if (evidence.campaignCount > 0) {
         Text(
-            text = "${evidence.campaignCount} CVE(s) linked to known spyware campaigns",
+            text = stringResource(R.string.evidence_spyware_cves, evidence.campaignCount),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.androdrColors.critical
         )
@@ -111,7 +113,7 @@ private fun CveListContent(evidence: Evidence.CveList, remediation: List<String>
 
     if (evidence.targetPatchLevel.isNotEmpty()) {
         Text(
-            text = "Target patch level: ${evidence.targetPatchLevel}",
+            text = stringResource(R.string.evidence_target_patch, evidence.targetPatchLevel),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -132,7 +134,7 @@ private fun CveListContent(evidence: Evidence.CveList, remediation: List<String>
     if (remediation.isNotEmpty()) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Remediation",
+            text = stringResource(R.string.evidence_remediation),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold
         )
@@ -212,7 +214,7 @@ private fun CveCard(cve: CveEvidence) {
 
             if (cve.patchLevel.isNotEmpty()) {
                 Text(
-                    text = "Fixed in: ${cve.patchLevel}",
+                    text = stringResource(R.string.evidence_fixed_in, cve.patchLevel),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -224,7 +226,7 @@ private fun CveCard(cve: CveEvidence) {
 @Composable
 private fun IocMatchContent(evidence: Evidence.IocMatch) {
     Text(
-        text = "Threat Match Details",
+        text = stringResource(R.string.evidence_threat_match),
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.SemiBold
     )
@@ -239,9 +241,9 @@ private fun IocMatchContent(evidence: Evidence.IocMatch) {
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            DetailRow(label = "What was detected", value = evidence.matchedIndicator)
-            DetailRow(label = "Detection type", value = evidence.iocType)
-            DetailRow(label = "Source", value = evidence.source)
+            DetailRow(label = stringResource(R.string.evidence_what_detected), value = evidence.matchedIndicator)
+            DetailRow(label = stringResource(R.string.evidence_detection_type), value = evidence.iocType)
+            DetailRow(label = stringResource(R.string.evidence_source), value = evidence.source)
         }
     }
 }
@@ -250,13 +252,13 @@ private fun IocMatchContent(evidence: Evidence.IocMatch) {
 @Composable
 private fun PermissionClusterContent(evidence: Evidence.PermissionCluster) {
     Text(
-        text = "Surveillance Permissions",
+        text = stringResource(R.string.evidence_surveillance_permissions),
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.SemiBold
     )
 
     Text(
-        text = "${evidence.surveillanceCount} of ${evidence.permissions.size} permissions are surveillance-capable",
+        text = stringResource(R.string.evidence_surveillance_count, evidence.surveillanceCount, evidence.permissions.size),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.androdrColors.critical
     )
