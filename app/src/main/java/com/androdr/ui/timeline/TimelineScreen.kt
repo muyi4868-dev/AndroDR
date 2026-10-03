@@ -66,6 +66,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.androdr.R
 import com.androdr.data.model.ForensicTimelineEvent
 import com.androdr.data.model.effectiveCorrelationId
+import com.androdr.ui.common.localizedSeverityLabel
 @Suppress("LongMethod", "CyclomaticComplexMethod")
 // Timeline screen combines top bar, filter chips, grouped event list,
 // empty state, export menu, detail sheet, and correlation-aware jump
@@ -127,7 +128,7 @@ fun TimelineScreen(
                 putExtra(Intent.EXTRA_SUBJECT, "AndroDR Timeline Report")
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(Intent.createChooser(shareIntent, "Share Timeline Report"))
+            context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.timeline_share_report)))
             viewModel.onShareConsumed()
         }
     }
@@ -139,7 +140,7 @@ fun TimelineScreen(
                 // Manage scan history
                 if (onNavigateToHistory != null) {
                     IconButton(onClick = onNavigateToHistory) {
-                        Icon(Icons.Filled.History, contentDescription = "Manage scans")
+                        Icon(Icons.Filled.History, contentDescription = stringResource(R.string.timeline_manage_scans))
                     }
                 }
                 // View report
@@ -195,7 +196,7 @@ fun TimelineScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Full Report\u2026") },
+                                text = { Text(stringResource(R.string.timeline_full_report)) },
                                 onClick = {
                                     exportMenuExpanded = false
                                     showExportModeDialog = true
@@ -216,15 +217,15 @@ fun TimelineScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Filters",
+                text = stringResource(R.string.timeline_filters),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Icon(
                 imageVector = if (filterPanelExpanded) Icons.Filled.ExpandLess
                     else Icons.Filled.ExpandMore,
-                contentDescription = if (filterPanelExpanded) "Collapse filters"
-                    else "Expand filters",
+                contentDescription = if (filterPanelExpanded) stringResource(R.string.timeline_collapse_filters)
+                    else stringResource(R.string.timeline_expand_filters),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -246,7 +247,7 @@ fun TimelineScreen(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "Hide informational telemetry",
+                        text = stringResource(R.string.timeline_hide_info),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -263,7 +264,7 @@ fun TimelineScreen(
                         FilterChip(
                             selected = level in severityFilter,
                             onClick = { viewModel.toggleSeverity(level) },
-                            label = { Text(level) }
+                            label = { Text(localizedSeverityLabel(level)) }
                         )
                     }
                 }
@@ -440,7 +441,8 @@ fun TimelineScreen(
                 dateGroups.forEach { group ->
                     item(key = "header_${group.label}") {
                         Text(
-                            text = group.label,
+                            text = if (group.label == "Unknown Date")
+                                stringResource(R.string.timeline_unknown_date) else group.label,
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(vertical = 4.dp)
@@ -524,9 +526,9 @@ fun TimelineScreen(
                 val intent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TEXT, textToShare)
-                    putExtra(Intent.EXTRA_SUBJECT, "AndroDR Forensic Timeline")
+                    putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.timeline_share_subject))
                 }
-                context.startActivity(Intent.createChooser(intent, "Share Timeline"))
+                context.startActivity(Intent.createChooser(intent, context.getString(R.string.timeline_share_title)))
             }
         )
     }
