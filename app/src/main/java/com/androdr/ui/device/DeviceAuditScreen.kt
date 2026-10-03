@@ -35,6 +35,7 @@ import com.androdr.R
 import com.androdr.sigma.Finding
 import com.androdr.ui.common.EvidenceSheet
 import com.androdr.ui.common.FindingCard
+import com.androdr.ui.common.localizedFindingRemediation
 
 @Suppress("LongMethod") // Device audit screen renders a summary header plus a grouped list of
 // device findings; co-location of triggered/clean sections avoids threading count state externally.
@@ -188,7 +189,7 @@ private fun RemediationCard(finding: Finding) {
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
             )
-            finding.remediation.forEach { step ->
+            localizedFindingRemediation(finding).forEach { step ->
                 Text(
                     "\u2022 $step",
                     style = MaterialTheme.typography.bodySmall,
