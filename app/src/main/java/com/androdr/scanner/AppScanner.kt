@@ -1,5 +1,6 @@
 package com.androdr.scanner
 
+import com.androdr.BuildConfig
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -232,7 +233,9 @@ class AppScanner @Inject constructor(
         bootReceiverPackages: Set<String>
     ): AppTelemetry? {
         val packageName = pkg.packageName ?: return null
-        if (packageName == "com.androdr" || packageName == "com.androdr.debug") return null
+        if (packageName == BuildConfig.APPLICATION_ID ||
+            packageName == "com.androdr" || packageName == "com.androdr.debug"
+        ) return null
         val appInfo = pkg.applicationInfo ?: return null
 
         @Suppress("TooGenericExceptionCaught", "SwallowedException")
