@@ -48,6 +48,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -75,12 +76,23 @@ fun DashboardScreen(
     val scanDiff by viewModel.scanDiff.collectAsStateWithLifecycle()
     val matchedDnsCount by viewModel.matchedDnsCount.collectAsStateWithLifecycle()
     val hasUsageStatsPermission by viewModel.hasUsageStatsPermission.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.iocErrorEvent.collect { message ->
-            snackbarHostState.showSnackbar(message)
+            val localized = when {
+                message.startsWith("Failed to update threat database") ->
+                    context.getString(R.string.dashboard_threat_update_failed_connection)
+                message.startsWith("Threat database update failed:") ->
+                    context.getString(
+                        R.string.dashboard_threat_update_failed_detail,
+                        message.substringAfter(':').trim()
+                    )
+                else -> message
+            }
+            snackbarHostState.showSnackbar(localized)
         }
     }
 
@@ -238,7 +250,7 @@ fun DashboardScreen(
                     modifier = Modifier.weight(1f),
                     title = stringResource(R.string.summary_last_scan),
                     value = lastScanTime,
-                    subtitle = if (latestScan != null) "Tap to manage" else null,
+                    subtitle = if (latestScan != null) stringResource(R.string.dashboard_tap_manage) else null,
                     onClick = { onNavigate("history") }
                 )
             }
@@ -352,10 +364,10 @@ private fun PostScanGuidance(riskLevel: RiskLevel?, latestScan: ScanResult?) {
 private fun RiskLevelCard(latestScan: ScanResult?) {
     val colors = MaterialTheme.androdrColors
     val (riskColor, riskLabel) = when (latestScan?.overallRiskLevel) {
-        RiskLevel.CRITICAL -> Pair(colors.critical, "CRITICAL")
-        RiskLevel.HIGH     -> Pair(colors.high, "HIGH")
-        RiskLevel.MEDIUM   -> Pair(colors.medium, "MEDIUM")
-        RiskLevel.LOW      -> Pair(colors.low, "LOW")
+        RiskLevel.CRITICAL -> Pair(colors.critical, stringResource(R.string.severity_critical))
+        RiskLevel.HIGH     -> Pair(colors.high, stringResource(R.string.severity_high))
+        RiskLevel.MEDIUM   -> Pair(colors.medium, stringResource(R.string.severity_medium))
+        RiskLevel.LOW      -> Pair(colors.low, stringResource(R.string.severity_low))
         null               -> Pair(colors.neutral, "\u2014")
     }
 
