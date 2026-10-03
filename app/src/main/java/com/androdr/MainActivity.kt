@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -102,16 +103,16 @@ private fun SystemBarsEffect() {
 
 private data class NavDestination(
     val route: String,
-    val label: String,
+    val labelRes: Int,
     val icon: androidx.compose.ui.graphics.vector.ImageVector
 )
 
 private val bottomNavDestinations = listOf(
-    NavDestination("dashboard", "Dashboard", Icons.Filled.Dashboard),
-    NavDestination("apps", "Apps", Icons.Outlined.Apps),
-    NavDestination("device", "Device", Icons.Filled.PhoneAndroid),
-    NavDestination("network", "Network", Icons.Filled.Wifi),
-    NavDestination("timeline", "Timeline", Icons.Filled.Timeline),
+    NavDestination("dashboard", R.string.nav_dashboard, Icons.Filled.Dashboard),
+    NavDestination("apps", R.string.nav_apps, Icons.Outlined.Apps),
+    NavDestination("device", R.string.nav_device, Icons.Filled.PhoneAndroid),
+    NavDestination("network", R.string.nav_network, Icons.Filled.Wifi),
+    NavDestination("timeline", R.string.nav_timeline, Icons.Filled.Timeline),
 )
 
 @Suppress("LongMethod") // AndroDRApp is the root nav host; it contains the VPN permission
@@ -162,14 +163,15 @@ private fun AndroDRApp() {
             if (showBottomBar) {
                 NavigationBar {
                     bottomNavDestinations.forEach { destination ->
+                        val destinationLabel = stringResource(destination.labelRes)
                         NavigationBarItem(
                             icon = {
                                 Icon(
                                     imageVector = destination.icon,
-                                    contentDescription = destination.label
+                                    contentDescription = destinationLabel
                                 )
                             },
-                            label = { Text(destination.label) },
+                            label = { Text(destinationLabel) },
                             selected = currentRoute?.startsWith(destination.route) == true,
                             onClick = {
                                 navController.navigate(destination.route) {
